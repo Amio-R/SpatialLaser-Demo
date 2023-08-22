@@ -1,0 +1,8 @@
+/* Change cursor when mousing over clickable layer */
+.leaflet-interactive {
+    cursor: crosshair !important;
+  }
+  /* Change cursor when over entire map */
+  .leaflet-container {
+    cursor: crosshair !important;
+  }
