@@ -20,18 +20,10 @@ public class MapController {
      
     @CrossOrigin
     @GetMapping("/api/map")
-    public HashMap<String, Double> getIncomePopulation(@RequestParam Double[] latlon, @RequestParam Double radius) {
-        HashMap <String, Double> centroidResult = new HashMap<String, Double>();
-        List<Object[]> result = mapService.centroidBasedCalculation(latlon, radius);
-        
-        for(Object[] row: result){
-            System.out.println(row[0]);
-            System.out.println(row[1]);
-        }
+    public HashMap<String, Integer> getIncomePopulation(@RequestParam Double[] latlon, @RequestParam Double radius) {
+        HashMap <String, Integer> result = mapService.centroidBasedCalculation(latlon, radius);
 
-        centroidResult.put("income", latlon[0]);
-        centroidResult.put("population", radius);
-        return centroidResult;
+        return result;
         // return String.format("Hello %f %f %f", lonlat[0], lonlat[1], radius);
     }
 }

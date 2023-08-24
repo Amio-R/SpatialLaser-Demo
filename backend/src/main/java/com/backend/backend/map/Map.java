@@ -4,9 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import org.locationtech.jts.geom.Polygon;
-import org.hibernate.annotations.Type;
 import java.io.Serializable;
 
 import lombok.Data;
@@ -26,7 +24,6 @@ public class Map {
     @Column(name="population")
     private int population;
 
-    @Column(name="spatialobj")
-    @Convert(converter = Polygon.class)
+    @Column(columnDefinition="geometry")
     private Polygon spatialobj;
 }

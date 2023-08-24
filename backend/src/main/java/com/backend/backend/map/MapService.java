@@ -1,13 +1,11 @@
 package com.backend.backend;
 
-import org.springframework.data.geo.Polygon;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Point;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.lang.*;
 
 @Service
@@ -16,34 +14,52 @@ public class MapService {
     @Autowired
     private MapRepository mapRepository;
 
-    public List<Object[]> centroidBasedCalculation(Double[] latlon, Double radius) {
+    public HashMap <String, Integer> centroidBasedCalculation(Double[] latlon, Double radius) {
         // create circle shaped polygon using lonlat and raaius
         // 64 point polygon to be used as a circle
-        // Latitude is approx 110.574 km and Longitude is 111.320km*cos(latitude)
-        Double km = radius/1000.0;
+        // Latitude is approx 110.574 km per degree and Longitude is 111.320km*cos(latitude) per degree
         // get ratio of x and y distances
-        Double distanceX = km/(111.320*Math.cos(latlon[0]*Math.PI/180));
-        Double distanceY = km/110.574;
+        Double distanceX = radius/(111320*Math.cos(latlon[0]*Math.PI/180));
+        Double distanceY = radius/110574;
 
-        List<Point> listOfPoints = new ArrayList<Point>();
-        int points = 64;
+        String concatenatePoints = "";
+        String closingPoint = "";
+        int points = 360;
 
         for(int i = 0; i < points; i++){
             // get angle of each point on the circumference
             Double theta = ((double)i/ (double) points)*(2*Math.PI);
-            // get x and y coordinates
-            Double x = distanceX*Math.cos(theta);
-            Double y = distanceY*Math.sin(theta);
+            // get x and y coordinates, latlon[0]=latitude at center, latlon[1]-longitude at center
+            Double x = (distanceX*Math.cos(theta)) + latlon[1];
+            Double y = (distanceY*Math.sin(theta)) + latlon[0];
 
-            System.out.printf("Lat Lon: %f, %f%n", x+latlon[0], y+latlon[1]);
-            
-            listOfPoints.add(new Point(y+latlon[1], x+latlon[0]));
+            // Need to close polygon to be a circle, x and y at i=0 should be inserted
+            // again at the end of the Polygon((first_points,...,first_points))
+            if (i == 0) {
+                closingPoint = x + " " + y;
+            }
+
+            concatenatePoints = concatenatePoints + x + " " + y + ",";
         }
 
-        Polygon circle = new Polygon(listOfPoints);
-        
+        concatenatePoints = concatenatePoints + closingPoint;
 
-        // get x coordinate () 
-        return mapRepository.centroidBasedIncomePopulation(circle);
+        List<Object[]> centroidIncomePopulationResults = mapRepository.centroidBasedIncomePopulation(concatenatePoints);
+        int totalPopulation = 0;
+        int averageIncome = 0;
+
+        // iterate and add up total #of income and population
+        for(Object[] row: centroidIncomePopulationResults){
+            totalPopulation = totalPopulation + (int)row[1];
+            averageIncome = averageIncome + (int)row[0];
+        }
+
+        averageIncome = averageIncome / centroidIncomePopulationResults.size();
+
+        HashMap <String, Integer> centroidResult = new HashMap<String, Integer>();
+        centroidResult.put("averageIncome", averageIncome);
+        centroidResult.put("totalPopulation", totalPopulation);
+
+        return centroidResult;
     }
 }
