@@ -7,7 +7,7 @@ export default function Home() {
   const Map =  dynamic(
     () => import('@/components/map'),
     { 
-      loading: () => <Image className="block m-auto" src={LoadSVG} width={150} height={150} />,
+      loading: () => <Image className="block m-auto" alt="loading" src={LoadSVG} width={150} height={150} />,
       ssr: false
     }
   )

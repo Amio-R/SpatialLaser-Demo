@@ -21,7 +21,14 @@ public class MapController {
     @CrossOrigin
     @GetMapping("/api/map")
     public HashMap<String, Integer> getIncomePopulation(@RequestParam Double[] latlon, @RequestParam Double radius) {
-        HashMap <String, Integer> result = mapService.centroidBasedCalculation(latlon, radius);
+        if (radius) {
+            HashMap <String, Integer> result = mapService.centroidBasedCalculation(latlon, radius);
+        }
+        else {
+            HashMap <String, Integer> result = new HashMap<String, Integer>;
+            centroidResult.put("averageIncome", 0);
+            centroidResult.put("totalPopulation", 0);
+        }
 
         return result;
         // return String.format("Hello %f %f %f", lonlat[0], lonlat[1], radius);
