@@ -12,7 +12,7 @@ export default function Map() {
     function LocateCursor () {
         useMapEvents({
             click: (e) => {
-                // console.log(locate, e.latlng)
+                console.log(locate, e.latlng)
                 setLocate([e.latlng['lat'], e.latlng['lng']])
             }
         })
