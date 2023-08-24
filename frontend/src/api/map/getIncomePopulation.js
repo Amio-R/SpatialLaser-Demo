@@ -1,6 +1,6 @@
 const getCentroidIncomePopulation = (latlon, radius, setValue)=>{
     setValue({"fetching": 1})
-    const result =  fetch(`http://localhost:8080/api/map?latlon=${latlon[0]},${latlon[1]}&radius=${radius}`)
+    const result =  fetch(`/api/map?latlon=${latlon[0]},${latlon[1]}&radius=${radius}`)
                     .then(response =>{
                         if (!response.ok) {
                             throw Error(response.statusText);
