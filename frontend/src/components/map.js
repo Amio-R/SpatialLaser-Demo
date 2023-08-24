@@ -16,6 +16,9 @@ export default function Map() {
     function LocateCursor () {
         useMapEvents({
             click: (e) => {
+                if (showValue?.found){
+                    setShowValue({"initial": 1});
+                }
                 setLocate([e.latlng['lat'], e.latlng['lng']])
             }
         })
@@ -47,7 +50,7 @@ export default function Map() {
             <label htmlFor="range" className="mx-auto mt-5 block text-2xl font-bold text-white dark:text-white">Radius: {radius/1000} km</label>
             { (showValue?.initial) && 
                 <div> 
-                    <input id="range" type="range" min={1} max={100000}
+                    <input id="range" type="range" min={0} max={100000}
                     value={radius}
                     onChange={e => changeRadiusInput(e)}
                     className="mx-auto mt-5 w-8/12 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
@@ -60,7 +63,7 @@ export default function Map() {
             {(showValue?.fetching) &&  <Image className="block m-auto mt-5" alt="loading" src={LoadSVG} width={40} height={40} />}
             {(showValue?.found) &&  
                 (<div>
-                    <input id="range" type="range" min={1} max={100000}
+                    <input id="range" type="range" min={0} max={100000}
                         value={radius}
                         onChange={e => changeRadiusInput(e)}
                         className="mx-auto mt-5 w-8/12 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
@@ -70,7 +73,7 @@ export default function Map() {
                                 Find Income and Population
                             </button>
                         :   <p className="mx-auto mt-5 block text-2xl font-bold text-white dark:text-white">
-                                Average Income: {showValue?.found?.averageIncome} &nbsp
+                                Average Income: {showValue?.found?.averageIncome} {" "}
                                 Total Population: {showValue?.found?.totalPopulation}
                             </p>
                     }

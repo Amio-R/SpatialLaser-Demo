@@ -53,8 +53,12 @@ public class MapService {
             totalPopulation = totalPopulation + (int)row[1];
             averageIncome = averageIncome + (int)row[0];
         }
+        
+        int sizeOfQuery = centroidIncomePopulationResults.size();
 
-        averageIncome = averageIncome / centroidIncomePopulationResults.size();
+        if (sizeOfQuery != 0){
+            averageIncome = averageIncome / sizeOfQuery;
+        }
 
         HashMap <String, Integer> centroidResult = new HashMap<String, Integer>();
         centroidResult.put("averageIncome", averageIncome);
