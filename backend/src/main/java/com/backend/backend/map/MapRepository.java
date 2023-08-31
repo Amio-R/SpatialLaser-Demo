@@ -1,4 +1,4 @@
-package com.backend.backend;
+package com.backend.backend.map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;

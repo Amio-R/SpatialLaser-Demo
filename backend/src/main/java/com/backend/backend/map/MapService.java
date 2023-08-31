@@ -1,4 +1,4 @@
-package com.backend.backend;
+package com.backend.backend.map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;

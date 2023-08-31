@@ -1,4 +1,4 @@
-package com.backend.backend;
+package com.backend.backend.map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,4 +1,4 @@
-package com.backend.backend;
+package com.backend.backend.map;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
